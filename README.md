@@ -61,7 +61,7 @@ Final game state will be printed to the console once the game bot has finished p
 4. If there is an unhandled (not failed) `Piece of cake` or `Walk in the park` probability task (message) available:
    * try to complete the task (solve the message).
 5. Fallback action to keep the bot gaming:
-   * try to complete the easiest and most reward task (message).
+   * try to complete the easiest and most rewarding task (message).
 
 ## Adding new (or updating existing) actions the game bot can execute
 * If necessary, add a new executable action under `domain/game/bot/action`
@@ -71,5 +71,5 @@ Final game state will be printed to the console once the game bot has finished p
 
 ## Comments about the solution
 * Not all code is covered by unit tests. I tried to cover most packages by implementing tests for at least one class to give a rough idea of how the tests would look like.
-* Exception handling can be improved to cover unexpected errors and expected errors (410 game over response from game API).
+* Exception handling can be improved to cover unexpected errors and to handle expected errors (410 game over response from game API) better.
 * With the current strategies and actions and a higher `game.score-breakpoint` value the bot should average a score of 4500 points before running out of lives.
