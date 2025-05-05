@@ -48,8 +48,13 @@ public class LevelUpStrategy implements Strategy {
     protected static Optional<ShopItem> findBestPossibleUpgrade(GameState gameState, int totalBudget) {
         List<ShopItem> upgradeItems = filterAndOrderUpgradeItems(gameState.getShopItems());
 
-        return findCheapestUpgrade(gameState, upgradeItems, totalBudget)
-                .or(() -> findCheapestItem(upgradeItems, totalBudget));
+        Optional<ShopItem> cheapestUpgradeOpt = findCheapestUpgrade(gameState, upgradeItems, totalBudget);
+
+        if (cheapestUpgradeOpt.isPresent()) return cheapestUpgradeOpt;
+
+        return saveMoneyForAnUpgrade(gameState, upgradeItems)
+                ? Optional.empty()
+                : findCheapestItem(upgradeItems, totalBudget);
     }
 
     /**
@@ -85,6 +90,16 @@ public class LevelUpStrategy implements Strategy {
         }
 
         return Optional.empty();
+    }
+
+    private static boolean saveMoneyForAnUpgrade(GameState gameState, List<ShopItem> upgradeItems) {
+        for (ShopItem upgradeItem : upgradeItems) {
+            if (gameState.hasItem(upgradeItem.id())) continue;
+
+            return true;
+        }
+
+        return false;
     }
 
 }
